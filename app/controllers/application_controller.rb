@@ -9,7 +9,7 @@ class ApplicationController < Sinatra::Base
 
   get "/" do
     #erb :welcome
-    erb :formtest
+    erb :index
   end
 
 end
