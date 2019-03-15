@@ -27,6 +27,7 @@ background-color: #464646;
           <th scope="col">Name</th>
           <th scope="col">Position</th>
           <th scope="col">Modify</th>
+          <th scope="col">Delete</th>
         </tr>
       </thead>
       <tbody>
@@ -35,7 +36,12 @@ background-color: #464646;
           <th scope="row"><%= @player.id %></th>
           <td><%= @player.name %></td>
           <td><%= @player.position %></td>
-          <td><a class="btn btn-primary" href="/players/show/<%=@player.id%>" role="button">View</a> - <a class="btn btn-primary" href="/players/edit/<%=@player.id%>" role="button">Edit</a> - <a class="btn btn-primary" href="/players/delete/<%=@player.id%>" role="button">Delete</a></td>
+          <td><a class="btn btn-primary" href="/players/edit/<%=@player.id%>" role="button">Edit</a>
+          </td>
+          <td><form method="post" action="/players/delete/<%= @player.id %>">
+            <input id="hidden" type="hidden" name="_method" value="DELETE">
+            <input type="submit" class="btn btn-primary"  value="Delete">
+            </form></td>
         </tr>
 
       </tbody>

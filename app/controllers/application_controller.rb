@@ -90,6 +90,11 @@ class ApplicationController < Sinatra::Base
   redirect to "/players/show/#{ @player.id }"
   end
 
+  delete '/players/delete/:id' do
+   Player.destroy(params[:id])
+   redirect to "/viewplayers"
+  end
+
   get '/users/home' do
      @user = User.find_by_id(session[:user_id])
      @player = Player.all.select {|player| player.user_id == session[:user_id]}
