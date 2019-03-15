@@ -72,6 +72,12 @@ class ApplicationController < Sinatra::Base
 
   end
 
+  get '/players/show/:id' do
+    @player = Player.find_by(id: params[:id])
+    puts @player
+    erb :'/players/show'
+  end
+
   get '/users/home' do
      @user = User.find_by_id(session[:user_id])
      @player = Player.all.select {|player| player.user_id == session[:user_id]}

@@ -18,8 +18,7 @@ background-color: #464646;
   <div class="jumbotron">
     <div class="container">
        <% if Helpers.is_logged_in?(session) %>
-      <center><h1 class="display-3">Your Current Player Roster:</h1></center>
-      <center><h4>Here are a list of your players...</h4></center><br>
+      <center><h1 class="display-3">Player Information</h1></center>
 
       <table class="table">
       <thead>
@@ -31,14 +30,13 @@ background-color: #464646;
         </tr>
       </thead>
       <tbody>
-        <% @player.each do |player| %>
+
         <tr>
-          <th scope="row"><%= player.id %></th>
-          <td><%= player.name %></td>
-          <td><%= player.position %></td>
-          <td><a class="btn btn-primary" href="/players/show/<%=player.id%>" role="button">View</a> - <a class="btn btn-primary" href="/players/edit/<%=player.id%>" role="button">Edit</a> - <a class="btn btn-primary" href="/players/delete/<%=player.id%>" role="button">Delete</a></td>
+          <th scope="row"><%= @player.id %></th>
+          <td><%= @player.name %></td>
+          <td><%= @player.position %></td>
+          <td><a class="btn btn-primary" href="/players/show/<%=@player.id%>" role="button">View</a> - <a class="btn btn-primary" href="/players/edit/<%=@player.id%>" role="button">Edit</a> - <a class="btn btn-primary" href="/players/delete/<%=@player.id%>" role="button">Delete</a></td>
         </tr>
-        <% end %>
 
       </tbody>
     </table>
