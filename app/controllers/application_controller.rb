@@ -34,7 +34,7 @@ class ApplicationController < Sinatra::Base
 
   post '/sessions' do
   @user = User.find_by(email: params["email"], password: params["password"])
-  session[:user_id] = @user.id
+  puts @user
     if @user
       session[:user_id] = @user.id
       redirect '/users/home'
@@ -45,6 +45,8 @@ class ApplicationController < Sinatra::Base
 
   get '/users/home' do
      @user = User.find_by_id(session[:user_id])
+     @player = Player.all.select {|player| player.user_id == session[:user_id]}
+     puts @player
     erb :'/users/home'
   end
 
