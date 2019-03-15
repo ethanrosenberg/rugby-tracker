@@ -1,0 +1,22 @@
+<style>
+.col-pixel-width-100 { flex: 0 0 100px; }
+</style>
+
+<h1>Edit Player</h1>
+<div class="container">
+<div class="row">
+  <div class="col-sm-6">
+
+<form action="/players/<%= @player.id %>" method="POST">
+  <input id="hidden" type="hidden" name="_method" value="PATCH">
+    <div class="form-group">
+    <input type="text" class="form-control" name="name" placeholder="Name:" value="<%= @player.name %>">
+    </div>
+    <div class="form-group">
+    <input type="text" class="form-control" name="position" placeholder="Position:" value="<%= @player.position %>">
+    </div>
+    <input type="submit" class="btn btn-primary" value="Update Player">
+  </form>
+</div>
+</div>
+</div>
