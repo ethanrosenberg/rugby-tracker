@@ -19,7 +19,9 @@ background-color: #464646;
     <div class="container">
       <center><h1 class="display-3">Welcome <%= @user.name %></h1></center>
       <center><h4>Here are a list of your players...</h4></center><br>
+      <% if !@user %>
       <center><p><a class="btn btn-primary btn-lg" href="/sessions/login" role="button">Login</a> <a class="btn btn-primary btn-lg" href="/registrations/signup" role="button">Signup</a></p></center>
+      <% end %>
       <p></p>
     </div>
   </div>

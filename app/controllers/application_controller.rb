@@ -11,7 +11,7 @@ class ApplicationController < Sinatra::Base
     set :views, 'app/views'
   end
 
-  get "/" do
+  get '/' do
     #erb :welcome
     erb :index
   end
@@ -28,12 +28,30 @@ class ApplicationController < Sinatra::Base
   redirect '/users/home'
   end
 
+  get '/sessions/login' do
+    erb :'/sessions/login'
+  end
+
+  post '/sessions' do
+  @user = User.find_by(email: params["email"], password: params["password"])
+  session[:user_id] = @user.id
+    if @user
+      session[:user_id] = @user.id
+      redirect '/users/home'
+    end
+    redirect '/sessions/login'
+
+  end
+
   get '/users/home' do
      @user = User.find(session[:user_id])
     erb :'/users/home'
   end
 
-
+ get '/sessions/logout' do
+   session.clear
+   redirect '/'
+ end
 
 
 
