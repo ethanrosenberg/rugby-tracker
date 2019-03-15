@@ -28,6 +28,19 @@ class ApplicationController < Sinatra::Base
   redirect '/users/home'
   end
 
+  get '/newplayer' do
+  erb  :'/players/new'
+  end
+
+  post '/newplayer' do
+    @player = Player.create(params)
+    #@user = User.find_by_id(session[:user_id])
+    @player.user_id = session[:user_id]
+    @player.save
+
+    redirect to '/users/home'
+  end
+
   get '/sessions/login' do
     erb :'/sessions/login'
   end
@@ -46,7 +59,11 @@ class ApplicationController < Sinatra::Base
   get '/users/home' do
      @user = User.find_by_id(session[:user_id])
      @player = Player.all.select {|player| player.user_id == session[:user_id]}
-     puts @player
+     @player.each do |player|
+       puts player
+     end
+     puts @user.name
+     puts session[:user_id]
     erb :'/users/home'
   end
 
