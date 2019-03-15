@@ -17,13 +17,11 @@ background-color: #464646;
 <!-- Main jumbotron for a primary marketing message or call to action -->
   <div class="jumbotron">
     <div class="container">
-      <center><h1 class="display-3">Welcome to RugbyTracker!</h1></center>
-       <% if Helpers.is_logged_in?(session) %>
-       <center><h4>Please use the menu above to view your account data.</h4></center><br>
-       <% else %>
-      <center><h4>Please Login or Signup to continue...</h4></center><br>
+      <center><h2 class="display-4">Oops! Looks like your not logged in.</h2></center><br>
+      <center><h4>Please log in or signup for an account below!</h4></center><br>
       <center><p><a class="btn btn-primary btn-lg" href="/sessions/login" role="button">Login</a> <a class="btn btn-primary btn-lg" href="/registrations/signup" role="button">Signup</a></p></center>
-       <% end %>
+
+      <p></p>
     </div>
   </div>
 

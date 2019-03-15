@@ -32,6 +32,18 @@ class ApplicationController < Sinatra::Base
   erb  :'/players/new'
   end
 
+  get '/viewplayers' do
+    @user = User.find_by_id(session[:user_id])
+    if @user
+      @player = Player.all.select {|player| player.user_id == session[:user_id]}
+      erb :'/players/all'
+    else
+      erb :'/users/notloggedin'
+    end
+
+
+  end
+
   post '/newplayer' do
     @player = Player.create(params)
     #@user = User.find_by_id(session[:user_id])
