@@ -17,11 +17,13 @@ background-color: #464646;
 <!-- Main jumbotron for a primary marketing message or call to action -->
   <div class="jumbotron">
     <div class="container">
-      <center><h1 class="display-3">Welcome <%= @user.name %></h1></center>
+       <% if Helpers.is_logged_in?(session) %>
+      <center><h1 class="display-3">Welcome <%= Helpers.current_user(session).name %></h1></center>
       <center><h4>Here are a list of your players...</h4></center><br>
-      <% if !@user %>
+      <% else %>
       <center><p><a class="btn btn-primary btn-lg" href="/sessions/login" role="button">Login</a> <a class="btn btn-primary btn-lg" href="/registrations/signup" role="button">Signup</a></p></center>
       <% end %>
+
       <p></p>
     </div>
   </div>
