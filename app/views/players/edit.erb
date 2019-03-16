@@ -3,6 +3,11 @@
 </style>
 
 <h1>Edit Player</h1>
+<% if params[:error] %>
+<div class="alert alert-danger" role="alert">
+<%= params[:error] %>
+</div>
+<% end %>
 <div class="container">
 <div class="row">
   <div class="col-sm-6">

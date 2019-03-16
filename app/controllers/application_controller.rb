@@ -21,7 +21,6 @@ class ApplicationController < Sinatra::Base
   end
 
   post '/registrations' do
-
   if User.find_by(email: params["email"])
     erb :'/users/alreadyexists'
   else
@@ -66,6 +65,9 @@ end
   end
 
   post '/newplayer' do
+    unless Player.valid_params?(params)
+       redirect to "/newplayer?error=Invalid player values! Please try again."
+    end
     @player = Player.create(params)
     #@user = User.find_by_id(session[:user_id])
     @player.user_id = session[:user_id]
@@ -82,7 +84,7 @@ end
   @user = User.find_by(email: params["email"], password: params["password"])
     if @user && user.authenticate(params[:password])
       session[:user_id] = @user.id
-      redirect '/users/home'
+      redirect '/viewplayers'
     else
     @error = "Please login to continue."
     redirect '/sessions/login'
@@ -102,6 +104,9 @@ end
 
   patch '/players/:id' do
   @player = Player.find(params[:id])
+  unless Player.valid_params?(params)
+     redirect to "/players/edit/#{@player.id}?error=Invalid player values! Please try again."
+  end
   @player.update(name: params[:name], position: params[:position])
   redirect to "/players/show/#{ @player.id }"
   end

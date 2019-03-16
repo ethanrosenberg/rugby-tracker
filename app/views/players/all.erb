@@ -18,9 +18,9 @@ background-color: #464646;
   <div class="jumbotron">
     <div class="container">
        <% if Helpers.is_logged_in?(session) %>
-      <center><h1 class="display-3">Your Current Player Roster:</h1></center>
-      <center><h4>Here are a list of your players...</h4></center><br>
 
+      <% if @player.size > 0 %>
+      <center><h2 class="display-5">Your Current Player Roster:</h2><br></center>
       <table class="table">
       <thead>
         <tr>
@@ -42,6 +42,9 @@ background-color: #464646;
 
       </tbody>
     </table>
+    <% else %>
+    <center><h2 class="display-5">You have no players on your roster.</h2><br></center>
+    <% end %>
       <% else %>
       <center><p><a class="btn btn-primary btn-lg" href="/sessions/login" role="button">Login</a> <a class="btn btn-primary btn-lg" href="/registrations/signup" role="button">Signup</a></p></center>
       <% end %>
