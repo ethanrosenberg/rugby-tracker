@@ -21,15 +21,20 @@ class ApplicationController < Sinatra::Base
   end
 
   post '/registrations' do
-  puts params
+
   if User.find_by(email: params["email"])
     erb :'/users/alreadyexists'
   else
-    @user = User.new(name: params["name"], email: params["email"], password: params["password"])
-    @user.save
+  @user = User.new(name: params["name"], email: params["email"], password: params["password"])
+  if @user.save
     session[:user_id] = @user.id
     redirect '/users/home'
+  else
+    @error = "Make sure to fill out all fields."
+    redirect '/registrations/signup'
   end
+end
+
   end
 
   get '/newplayer' do
@@ -75,12 +80,13 @@ class ApplicationController < Sinatra::Base
 
   post '/sessions' do
   @user = User.find_by(email: params["email"], password: params["password"])
-  puts @user
-    if @user
+    if @user && user.authenticate(params[:password])
       session[:user_id] = @user.id
       redirect '/users/home'
-    end
+    else
+    @error = "Please login to continue."
     redirect '/sessions/login'
+    end
 
   end
 
@@ -130,6 +136,7 @@ class ApplicationController < Sinatra::Base
 		def current_user
 			User.find(session[:user_id])
 		end
+
 	end
 
 end
