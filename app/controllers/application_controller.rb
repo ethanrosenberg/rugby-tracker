@@ -33,7 +33,14 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/newplayer' do
-  erb  :'/players/new'
+    @user = User.find_by_id(session[:user_id])
+    if @user
+      erb  :'/players/new'
+    else
+      @error = "You must login to add a new player."
+      erb :'/sessions/login'
+    end
+
   end
 
   get '/viewplayers' do
@@ -42,7 +49,12 @@ class ApplicationController < Sinatra::Base
       @player = Player.all.select {|player| player.user_id == session[:user_id]}
       erb :'/players/all'
     else
-      erb :'/users/notloggedin'
+      #message = "You must be logged in."
+      #redirect to ("/sessions/login?error=#{message}")
+      #erb :'/users/notloggedin'
+      @error = "You must login to view a team roster."
+      erb :'/sessions/login'
+      #redirect to ("/sessions/login?error=You must be logged in.")
     end
 
 
@@ -74,7 +86,6 @@ class ApplicationController < Sinatra::Base
 
   get '/players/show/:id' do
     @player = Player.find_by(id: params[:id])
-    puts @player
     erb :'/players/show'
   end
 
@@ -84,7 +95,6 @@ class ApplicationController < Sinatra::Base
   end
 
   patch '/players/:id' do
-    puts params
   @player = Player.find(params[:id])
   @player.update(name: params[:name], position: params[:position])
   redirect to "/players/show/#{ @player.id }"
@@ -98,11 +108,6 @@ class ApplicationController < Sinatra::Base
   get '/users/home' do
      @user = User.find_by_id(session[:user_id])
      @player = Player.all.select {|player| player.user_id == session[:user_id]}
-     @player.each do |player|
-       puts player
-     end
-     puts @user.name
-     puts session[:user_id]
     erb :'/users/home'
   end
 
