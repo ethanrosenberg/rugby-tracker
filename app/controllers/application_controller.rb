@@ -38,32 +38,21 @@ end
   end
 
   get '/newplayer' do
-    @user = User.find_by_id(session[:user_id])
-    if @user
+    redirect_if_not_logged_in
+    #@user = User.find_by_id(session[:user_id])
+    #if @user
       erb  :'/players/new'
-    else
-      @error = "You must login to add a new player."
-      redirect '/sessions/login'
-    end
+    #end
 
   end
 
   get '/viewplayers' do
-    if logged_in?
+    redirect_if_not_logged_in
       @user = User.find_by_id(session[:user_id])
       if @user
         @player = Player.all.select {|player| player.user_id == session[:user_id]}
         erb :'/players/all'
       end
-      #message = "You must be logged in."
-      #redirect to ("/sessions/login?error=#{message}")
-      #erb :'/users/notloggedin'
-    else
-      #@error = "You must login to view a team roster."
-      #redirect '/sessions/login'
-      redirect to ("/sessions/login?error=You must be logged in.")
-    end
-
 
   end
 
@@ -72,10 +61,8 @@ end
        redirect to "/newplayer?error=Invalid player values! Please try again."
     end
     @player = Player.create(params)
-    #@user = User.find_by_id(session[:user_id])
     @player.user_id = session[:user_id]
     @player.save
-
     redirect to '/viewplayers'
   end
 
@@ -85,24 +72,23 @@ end
 
   post '/sessions' do
   @user = User.find_by(email: params["email"], password_digest: params["password"])
-
     if @user
       session[:user_id] = @user.id
       redirect '/viewplayers'
     else
-    @error = "Please login to continue."
-    #erb :'/sessions/login'
-    redirect '/sessions/login?error=Please try logging in again.'
+    redirect '/sessions/login?error=Please check your login credentials.'
     end
 
   end
 
   get '/players/show/:id' do
+    redirect_if_not_logged_in
     @player = Player.find_by(id: params[:id])
     erb :'/players/show'
   end
 
   get '/players/edit/:id' do
+    redirect_if_not_logged_in
     @player = Player.find(params[:id])
     erb :'/players/edit'
   end
@@ -133,20 +119,21 @@ end
  end
 
 
-
-  get '/new-user' do
-    erb :new_user
-  end
-
   helpers do
-		def logged_in?
-			!!session[:user_id]
-		end
+    def redirect_if_not_logged_in
+      if !logged_in?
+        redirect "/sessions/login?error=You have to be logged in to do that..."
+      end
+    end
 
-		def current_user
-			User.find(session[:user_id])
-		end
+    def logged_in?
+      !!session[:user_id]
+    end
 
-	end
+    def current_user
+      User.find(session[:user_id])
+    end
+
+  end
 
 end
