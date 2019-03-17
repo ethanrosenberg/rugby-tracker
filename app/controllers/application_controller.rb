@@ -49,17 +49,19 @@ end
   end
 
   get '/viewplayers' do
-    @user = User.find_by_id(session[:user_id])
-    if @user
-      @player = Player.all.select {|player| player.user_id == session[:user_id]}
-      erb :'/players/all'
-    else
+    if logged_in?
+      @user = User.find_by_id(session[:user_id])
+      if @user
+        @player = Player.all.select {|player| player.user_id == session[:user_id]}
+        erb :'/players/all'
+      end
       #message = "You must be logged in."
       #redirect to ("/sessions/login?error=#{message}")
       #erb :'/users/notloggedin'
-      @error = "You must login to view a team roster."
-      redirect '/sessions/login'
-      #redirect to ("/sessions/login?error=You must be logged in.")
+    else
+      #@error = "You must login to view a team roster."
+      #redirect '/sessions/login'
+      redirect to ("/sessions/login?error=You must be logged in.")
     end
 
 
