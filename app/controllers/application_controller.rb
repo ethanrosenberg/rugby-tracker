@@ -1,4 +1,5 @@
 require './config/environment'
+require 'pry'
 
 class ApplicationController < Sinatra::Base
   configure do
@@ -24,7 +25,7 @@ class ApplicationController < Sinatra::Base
   if User.find_by(email: params["email"])
     erb :'/users/alreadyexists'
   else
-  @user = User.new(name: params["name"], email: params["email"], password: params["password"])
+  @user = User.new(name: params["name"], email: params["email"], password_digest: params["password"])
   if @user.save
     session[:user_id] = @user.id
     redirect '/users/home'
@@ -42,7 +43,7 @@ end
       erb  :'/players/new'
     else
       @error = "You must login to add a new player."
-      erb :'/sessions/login'
+      redirect '/sessions/login'
     end
 
   end
@@ -57,7 +58,7 @@ end
       #redirect to ("/sessions/login?error=#{message}")
       #erb :'/users/notloggedin'
       @error = "You must login to view a team roster."
-      erb :'/sessions/login'
+      redirect '/sessions/login'
       #redirect to ("/sessions/login?error=You must be logged in.")
     end
 
@@ -73,7 +74,7 @@ end
     @player.user_id = session[:user_id]
     @player.save
 
-    redirect to '/users/home'
+    redirect to '/viewplayers'
   end
 
   get '/sessions/login' do
@@ -81,13 +82,15 @@ end
   end
 
   post '/sessions' do
-  @user = User.find_by(email: params["email"], password: params["password"])
-    if @user && user.authenticate(params[:password])
+  @user = User.find_by(email: params["email"], password_digest: params["password"])
+
+    if @user
       session[:user_id] = @user.id
       redirect '/viewplayers'
     else
     @error = "Please login to continue."
-    redirect '/sessions/login'
+    #erb :'/sessions/login'
+    redirect '/sessions/login?error=Please try logging in again.'
     end
 
   end
