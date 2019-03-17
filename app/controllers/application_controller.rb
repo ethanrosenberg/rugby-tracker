@@ -13,7 +13,6 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/' do
-    #erb :welcome
     erb :index
   end
 
@@ -39,11 +38,7 @@ end
 
   get '/newplayer' do
     redirect_if_not_logged_in
-    #@user = User.find_by_id(session[:user_id])
-    #if @user
-      erb  :'/players/new'
-    #end
-
+    erb  :'/players/new'
   end
 
   get '/viewplayers' do

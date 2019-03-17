@@ -1,12 +1,16 @@
 
 # RugbyTracker - The #1 App For Tracking Team Player Rosters
 
-This app allows you to signup as a coach and then add all your players along with their name, position etc...
-Easily create, edit, update or delete players from your roster.
+This app allows you to signup as a coach and easily manage your entire player roster for your rugby team.
 
 ## Installation & Usage
 
 To use this app, just clone and run
+
+```ruby
+bundle install
+```
+Then run:
 
 ```ruby
 rake db:migrate
@@ -16,6 +20,10 @@ and then run
 ```ruby
 shotgun
 ```
+
+Enter the host url displayed (eg. http://178.128.13.85:56117) into your web browser to get started!
+
+The first step will be to signup for a new user account using an email and password. After signup go ahead and login to start adding players to your roster. You can add players by name and position and then edit and delete any player on your roster as you choose. On the /viewplayers page you will be able to see your entire roster.
 
 ## Contributing
 
