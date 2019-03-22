@@ -57,6 +57,7 @@ end
     end
     @player = Player.create(params)
     @player.user_id = session[:user_id]
+    @player.caps = params[:caps].to_i
     @player.save
     redirect to '/viewplayers'
   end
@@ -93,7 +94,7 @@ end
   unless Player.valid_params?(params)
      redirect to "/players/edit/#{@player.id}?error=Invalid player values! Please try again."
   end
-  @player.update(name: params[:name], position: params[:position])
+  @player.update(name: params[:name], position: params[:position], caps: params[:caps].to_i)
   redirect to "/players/show/#{ @player.id }"
   end
 

@@ -27,6 +27,7 @@ background-color: #464646;
           <th scope="col">ID</th>
           <th scope="col">Name</th>
           <th scope="col">Position</th>
+          <th scope="col">Caps</th>
           <th scope="col">Modify</th>
         </tr>
       </thead>
@@ -36,6 +37,7 @@ background-color: #464646;
           <th scope="row"><%= player.id %></th>
           <td><%= player.name %></td>
           <td><%= player.position %></td>
+          <td><%= player.caps %></td>
           <td><a class="btn btn-primary" href="/players/show/<%=player.id%>" role="button">View</a> - <a class="btn btn-primary" href="/players/edit/<%=player.id%>" role="button">Edit</a></td>
         </tr>
         <% end %>
