@@ -81,23 +81,35 @@ end
 
   get '/players/show/:id' do
     redirect_if_not_logged_in
+    #if player's user id doesn't match the user's id
+    #redirect to /viewplayers
+
     @player = Player.find_by(id: params[:id])
+    if @player.user != current_user
+      redirect to '/viewplayers?error=You can only view your players.'
+    end
     erb :'/players/show'
   end
 
   get '/players/edit/:id' do
     redirect_if_not_logged_in
+
     @player = Player.find(params[:id])
+    if @player.user != current_user
+      redirect to '/viewplayers?error=You can only view your players.'
+    end
     erb :'/players/edit'
   end
 
   patch '/players/:id' do
   @player = Player.find(params[:id])
-  unless Player.valid_params?(params)
-     redirect to "/players/edit/#{@player.id}?error=Invalid player values! Please try again."
+
+  if Player.valid_params?(params) && @player.user == current_user
+    @player.update(name: params[:name], position: params[:position], caps: params[:caps].to_i)
+    redirect to "/players/show/#{ @player.id }"
+  else
+    redirect to "/viewplayers?error=Invalid player values! Please try again."
   end
-  @player.update(name: params[:name], position: params[:position], caps: params[:caps].to_i)
-  redirect to "/players/show/#{ @player.id }"
   end
 
   delete '/players/delete/:id' do
@@ -106,7 +118,6 @@ end
   end
 
   get '/users/home' do
-     @user = User.find_by_id(session[:user_id])
      @player = Player.all.select {|player| player.user_id == session[:user_id]}
     erb :'/users/home'
   end
@@ -129,7 +140,7 @@ end
     end
 
     def current_user
-      User.find(session[:user_id])
+      @u ||= User.find(session[:user_id])
     end
 
   end
