@@ -17,7 +17,8 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/registrations/signup' do
-    erb :'/registrations/signup'
+    erb :'/registrations/signup_v2'
+    #erb :'/registrations/signup'
   end
 
   post '/registrations' do
@@ -27,7 +28,7 @@ class ApplicationController < Sinatra::Base
   @user = User.new(name: params["name"], email: params["email"], password_digest: params["password"])
   if @user.save
     session[:user_id] = @user.id
-    redirect '/users/home'
+    redirect '/viewplayers'
   else
     @error = "Make sure to fill out all fields."
     redirect '/registrations/signup'
@@ -63,7 +64,8 @@ end
   end
 
   get '/sessions/login' do
-    erb :'/sessions/login'
+    #erb :'/sessions/login'
+    erb :'/sessions/login_v2'
   end
 
   post '/sessions' do
